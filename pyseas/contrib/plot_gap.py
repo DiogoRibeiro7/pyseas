@@ -194,7 +194,7 @@ def plot_gap(gap_id, gaps_data, positions_gfw, hourly_data, positions_ee=None, p
     '''
     
     if table_type not in ["none", "basic", "ee"]:
-        raise("%s is not a valid model type. Choose from 'none', basic', or 'ee'.")
+        raise ValueError(f"{table_type!r} is not a valid table_type. Choose from 'none', 'basic', or 'ee'.")
         
     # Set boolean based on if positions_ee is non-empty.
     has_ee = False
@@ -207,12 +207,9 @@ def plot_gap(gap_id, gaps_data, positions_gfw, hourly_data, positions_ee=None, p
     # `pipe_vYYYYMMDD_fishing` that is being used.
     df_positions_gfw = positions_gfw[positions_gfw.gap_id == gap_id]
     if df_positions_gfw.empty:
-        raise("An image cannot be produced for gap %s because there are no Spire/Orbcomm positions for this dataset. This is usually do to vessels being left out of the `pipe_vYYYYMMDD_fishing` database." % gap_id)
-    
-    # Get information for this gap and print out ssvid and gap_id
+        raise RuntimeError(f"An image cannot be produced for gap {gap_id} because there are no Spire/Orbcomm positions for this dataset. This is usually due to vessels being left out of the `pipe_vYYYYMMDD_fishing` database.")
+
     gap_info = gaps_data[gaps_data.gap_id == gap_id].iloc[0]
-    print(gap_info.ssvid)
-    print(gap_id)
     
     # If show_all_gaps=True, then get information for ALL gaps from df_gaps between query_start and query_end because there may be more than the one of interest.
     # ELSE, set df_all_gaps to single gap
@@ -228,7 +225,11 @@ def plot_gap(gap_id, gaps_data, positions_gfw, hourly_data, positions_ee=None, p
     if (has_ee):
         df_positions_ee = positions_ee[(positions_ee.gap_id == gap_id)]
         df_positions_ee = df_positions_ee.assign(receiver_type = 'exactearth')
-        df_positions_all = df_positions_gfw[['ssvid', 'timestamp', 'lat', 'lon', 'receiver_type']].append(df_positions_ee[['ssvid', 'timestamp', 'lat', 'lon', 'receiver_type']], ignore_index=True)
+        df_positions_all = pd.concat(
+            [df_positions_gfw[['ssvid', 'timestamp', 'lat', 'lon', 'receiver_type']],
+             df_positions_ee[['ssvid', 'timestamp', 'lat', 'lon', 'receiver_type']]],
+            ignore_index=True,
+        )
         df_positions_all = df_positions_all.sort_values('timestamp').reset_index(drop=True)
     else:
         df_positions_all = df_positions_gfw[['ssvid', 'timestamp', 'lat', 'lon', 'receiver_type']]
