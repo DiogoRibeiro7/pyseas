@@ -13,6 +13,6 @@ def test_uniform():
     km_per_deg = 111
     values = np.cos(np.radians(lat_bin / scale)) / (scale ** 2) * (km_per_deg ** 2)
     df = pd.DataFrame({'lon_bin' : lon_bin, 'lat_bin' : lat_bin, 'values' : values})
-    raster = rasters.df2raster(df, 'lon_bin', 'lat_bin', 'values', 
+    raster = rasters.df2raster(df, 'lon_bin', 'lat_bin', 'values',
                                      xyscale=scale, origin='lower', per_km2=True)
-    np.allclose(raster, 2.0, atol=0.001)
+    assert np.allclose(raster, 2.0, atol=0.001)
