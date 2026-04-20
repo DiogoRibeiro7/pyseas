@@ -43,6 +43,22 @@ Or, to install in an existing Conda environment:
 If you are not interested in the `Examples` notebooks, you may omit `-e` and
 avoid the in-place install.
 
+## Running tests
+
+This repository includes unit tests in the `tests/` directory. The suite is
+run with `pytest` from the repository root:
+
+    pytest -q
+
+A few imagery-related tests require the `osgeo` package and will be skipped if
+that dependency is not available.
+
+The tests already include module-level documentation and docstrings for each
+case.
+
+Integration tests are located in `tests/test_integration_*.py` and full
+end-to-end workflow coverage is provided by `tests/test_e2e_*.py`.
+
 ## Documentation
 
 Examples of common plotting tasks are shown in [pyseas/doc/Examples.md](pyseas/doc/Examples.md),
