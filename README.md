@@ -12,13 +12,13 @@ A library to make GFW style maps in Python.
 
 ### Via Pixi
 
-Install Pixi as shown [here].
+Install Pixi as shown [here](https://pixi.sh/).
 
 Then run either `pixi shell` or `pixi run jupyter notebook`. This will start a shell
-or run a notebook in a mininal environment that includes `pyseas`.
+or run a notebook in a minimal environment that includes `pyseas`.
 
-This environment is decribed in the `pyproject.toml` file and is best modified using
-`pixi add`. For more information see [info.sh](info.sh)
+This environment is described in the `pyproject.toml` file and is best modified using
+`pixi add`.
 
 ### Using Conda
 
