@@ -1,0 +1,84 @@
+name: Bug report
+description: Report something that pyseas does incorrectly.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug. A minimal reproducer saves everyone time.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What did you expect to happen, and what happened instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproducer
+    attributes:
+      label: Minimal reproducer
+      description: A self-contained snippet we can paste into a notebook / REPL to reproduce the issue.
+      render: python
+    validations:
+      required: true
+
+  - type: textarea
+    id: traceback
+    attributes:
+      label: Full traceback or error output
+      render: shell
+
+  - type: input
+    id: pyseas-version
+    attributes:
+      label: pyseas version
+      placeholder: "e.g. 0.9.1 — `python -c 'import pyseas; print(pyseas.__version__)'`"
+    validations:
+      required: true
+
+  - type: input
+    id: python-version
+    attributes:
+      label: Python version
+      placeholder: "e.g. 3.11.9"
+    validations:
+      required: true
+
+  - type: input
+    id: cartopy-version
+    attributes:
+      label: cartopy / matplotlib / pandas versions
+      placeholder: "e.g. cartopy 0.24.1, matplotlib 3.10.3, pandas 2.3.0"
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Linux
+        - macOS
+        - Windows
+        - Other / not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: install-method
+    attributes:
+      label: How pyseas was installed
+      options:
+        - pixi
+        - conda + pip install -e
+        - conda + pip install (no -e)
+        - pip only
+        - Other / not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Anything else?
+      description: Screenshots of incorrect maps are especially helpful.
