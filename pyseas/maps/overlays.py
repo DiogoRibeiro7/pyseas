@@ -36,7 +36,7 @@ def add_shades(timestamp, lon, ax=None, color=None, alpha=None):
     if color is None:
         color = plt.rcParams.get('pyseas.nightshade.color', props.chart.nightshade.color)
     if alpha is None:
-        alpha = alpha=plt.rcParams.get('pyseas.nightshade.alpha', props.chart.nightshade.alpha)
+        alpha = plt.rcParams.get('pyseas.nightshade.alpha', props.chart.nightshade.alpha)
     min_dt, max_dt = [mdates.num2date(x).replace(tzinfo=None) for x in ax.get_xlim()]
 
     timestamp = pd.to_datetime(asarray(timestamp)).to_pydatetime()
