@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions and discussion
+    url: https://github.com/DiogoRibeiro7/pyseas/discussions
+    about: For usage questions or open-ended discussion, please use Discussions rather than the issue tracker.
