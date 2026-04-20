@@ -42,3 +42,38 @@ pyseas = { path = ".", editable = true }
 gdal = ">=3.11.1,<4"
 pytables = ">=3.10.2,<4"
 h3 = ">=4.3.0,<5"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = [
+    "pyseas/data",
+    "pyseas/doc",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "SIM",  # flake8-simplify
+]
+ignore = [
+    "E501",  # line too long — handled by formatter
+    "E741",  # ambiguous variable names (l, O, I) — common in math/geo code
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["B018"]  # allow useless expressions in tests (e.g. bare np.allclose before assert was added)
+"pyseas/maps/_monkey_patch_cartopy.py" = ["F401", "F403"]  # monkey-patch module by design
+
+[tool.ruff.lint.isort]
+known-first-party = ["pyseas"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"
