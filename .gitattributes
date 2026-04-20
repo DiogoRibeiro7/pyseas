@@ -1,2 +1,32 @@
 # SCM syntax highlighting & preventing 3-way merges
 pixi.lock merge=binary linguist-language=YAML linguist-generated=true
+
+# Force LF line endings so Windows checkouts don't introduce CRLF
+* text=auto eol=lf
+
+*.py text eol=lf
+*.md text eol=lf
+*.toml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.cfg text eol=lf
+*.sh text eol=lf
+
+# Mark binary assets so diffs/merges don't mangle them
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.ttf binary
+*.otf binary
+*.woff binary
+*.woff2 binary
+*.gpkg binary
+*.shp binary
+*.shx binary
+*.dbf binary
+*.prj binary
+*.qix binary
+*.cpg binary
+*.zip binary
