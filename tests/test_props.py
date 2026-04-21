@@ -4,8 +4,6 @@ These tests cover Props object construction, representation, and default
 style properties loading.
 """
 
-import pytest
-
 from pyseas import props
 
 
@@ -29,7 +27,7 @@ def test_props_numeric_key_name():
     """Verify that numeric keys are converted to valid Python attribute names."""
     p = props.Props(**{"1color": "blue"})
     assert hasattr(p, "_1color")
-    assert getattr(p, "_1color") == "blue"
+    assert p._1color == "blue"
 
 
 def test_default_props_are_loaded():

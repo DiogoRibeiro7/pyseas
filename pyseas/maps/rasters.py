@@ -4,21 +4,19 @@ import pandas as pd
 KM_PER_DEG_LAT = 110.574
 KM_PER_DEG_LON0 = 111.320
 
-# Add test
-class LonLat2Km2Scaler(object):
 
+# Add test
+class LonLat2Km2Scaler:
     def __init__(self, xyscale, scale=1):
         self.xyscale = xyscale
         self.scale = scale
-        self._scale0 = KM_PER_DEG_LAT * KM_PER_DEG_LON0 / xyscale ** 2
+        self._scale0 = KM_PER_DEG_LAT * KM_PER_DEG_LON0 / xyscale**2
 
     def __call__(self, x, y, v):
         return self.scale * v / (np.cos(np.radians(y / self.xyscale)) * self._scale0)
 
 
-
-class LinearScalar(object):
-
+class LinearScalar:
     def __init__(self, scale):
         self.scale = scale
 
@@ -26,10 +24,18 @@ class LinearScalar(object):
         return self.scale * v
 
 
-
-def df2raster(df, x_label, y_label, v_label, xyscale,
-              scale=1, extent=(-180, 180, -90, 90),
-              origin='upper', per_km2=False, fill=0.0):
+def df2raster(
+    df,
+    x_label,
+    y_label,
+    v_label,
+    xyscale,
+    scale=1,
+    extent=(-180, 180, -90, 90),
+    origin="upper",
+    per_km2=False,
+    fill=0.0,
+):
     """
     Convert a DataFrame to raster.
 
@@ -56,13 +62,13 @@ def df2raster(df, x_label, y_label, v_label, xyscale,
         or at the lower left.
     per_km2 : bool, optional
         If True, inputs are assumed to be per grid cell where
-        each side is 1/`xyscale` degrees. Output is scaled to per km2, 
-        then scaled using `scale`.  The primary purpose of this 
+        each side is 1/`xyscale` degrees. Output is scaled to per km2,
+        then scaled using `scale`.  The primary purpose of this
         adjustment is to correct for the varying sizes of grid cells
         by latitude. Note that this is not appropriate for quantities
         such as reception quality that do not scale with area.
     fill : float, optional
-        Fill the grid cells that have no corresponding values in the 
+        Fill the grid cells that have no corresponding values in the
         dataframe with this value. Defaults to zero. Can be helpful to
         specify fill=np.nan for gridded data with missing values.
 
@@ -70,10 +76,10 @@ def df2raster(df, x_label, y_label, v_label, xyscale,
     -------
     np.ndarray
     """
-    if origin not in ('upper','lower'):
+    if origin not in ("upper", "lower"):
         raise ValueError(f"origin must be 'upper' or 'lower', got {origin!r}")
 
-    is_upper = (origin == 'upper')
+    is_upper = origin == "upper"
     min_x, max_x, min_y, max_y = [x * xyscale for x in extent]
     ny = int(max_y - min_y)
     nx = int(max_x - min_x)
@@ -119,14 +125,14 @@ def locs_to_h3_cnts(lons, lats, level):
     level : int
         H3 level as specified at https://h3geo.org/docs/core-library/restable.
         Level 8 corresponds to 0.75 km2 and works for relatively fine scale features.
-    
+
     Returns
     -------
     dict
         Maps H3 index values to counts
     """
     counts = dict()
-    h3_indices = vect.geo_to_h3(lats.astype('double'), lons.astype('double'), level)
+    h3_indices = vect.geo_to_h3(lats.astype("double"), lons.astype("double"), level)
     for ndx in h3_indices:
         if ndx not in counts:
             counts[ndx] = 0

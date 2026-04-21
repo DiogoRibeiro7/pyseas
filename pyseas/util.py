@@ -27,11 +27,13 @@ def lon_avg(lons):
 
 def is_sorted(values):
     """Returns True if sequence is sorted else False"""
-    is_first = True
-    for x in values:
-        if is_first:
-            is_first = False
-        elif x < last:
+    it = iter(values)
+    try:
+        last = next(it)
+    except StopIteration:
+        return True
+    for x in it:
+        if x < last:
             return False
         last = x
     return True

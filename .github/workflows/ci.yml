@@ -16,9 +16,6 @@ jobs:
   lint:
     name: Lint (ruff)
     runs-on: ubuntu-latest
-    # TODO: drop continue-on-error once #23 (ruff config) merges and a
-    # follow-up PR runs `ruff check --fix && ruff format` on the tree.
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - name: ruff check

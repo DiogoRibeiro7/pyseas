@@ -9,7 +9,6 @@ from cycler import cycler as _cycler
 from matplotlib import font_manager
 from matplotlib import pyplot as _plt
 from matplotlib import rcsetup as _rcsetup
-from matplotlib.colors import to_rgba
 
 from . import cm as _cm
 from . import props as _props
@@ -22,7 +21,7 @@ for font_file in font_manager.findSystemFonts(fontpaths=font_dirs):
     font_manager.fontManager.addfont(font_file)
 
 """
-This chart style was developed on a 10 by 6 figure size. 
+This chart style was developed on a 10 by 6 figure size.
 Fonts will likely need to be changed for different image sizes.
 
 The chart style is a light theme but could create a dark version in the future.

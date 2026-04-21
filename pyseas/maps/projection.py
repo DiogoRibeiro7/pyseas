@@ -97,22 +97,17 @@ def find_projection_core(lons, lats, pad_rel=0.2, pad_abs=0.1, percentile=99.9):
     lat_delta = abs(lat1 - lat0) * pad_rel + pad_abs
 
     extent = (lon0 - lon_delta, lon1 + lon_delta, lat0 - lat_delta, lat1 + lat_delta)
-    if (
-        extent[1] - extent[0] <= MAX_LAMBERT_EXTENT
-        and extent[3] - extent[2] <= MAX_LAMBERT_EXTENT
-    ):
+    if extent[1] - extent[0] <= MAX_LAMBERT_EXTENT and extent[3] - extent[2] <= MAX_LAMBERT_EXTENT:
         projection = "LambertAzimuthalEqualArea"
         lonstr = ("{}°E" if (lonm >= 0) else "{}°W").format(int(round(abs(lonm))))
         latstr = ("{}°N" if (latm >= 0) else "{}°S").format(int(round(abs(latm))))
-        description = "Lambert azimuthal equal area @{},{}".format(lonstr, latstr)
+        description = f"Lambert azimuthal equal area @{lonstr},{latstr}"
     else:
         extent = None
         latm = None
         projection = "EqualEarth"
         lonstr = ("{}°E" if (lonm >= 0) else "{}°W").format(int(round(abs(lonm))))
-        description = "EqualEarth @{}".format(
-            lonstr,
-        )
+        description = f"EqualEarth @{lonstr}"
     return ProjectionInfo(
         projection, extent, description, central_longitude=lonm, central_latitude=latm
     )

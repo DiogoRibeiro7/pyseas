@@ -21,6 +21,7 @@ the blockiness and loss of detail that plague rendering with `imshow`.
 Much code here repurposed from the matplotlib sources for `Axes.imshow` and
 `AxesImage`.
 """
+
 import warnings
 
 import h3.api.memview_int as h3
@@ -45,7 +46,7 @@ def h3_show(
     url=None,
     alpha=1.0,
     fill=0.0,
-    **kwargs
+    **kwargs,
 ):
     """Plot H3 DGG data in a way friendly to projected maps.
 
@@ -75,7 +76,7 @@ def h3_show(
         extent=ax.get_extent(),
         interpolation="nearest",
         origin="lower",
-        **kwargs
+        **kwargs,
     )
 
     return _finalize_show((h3_data, fill), im, ax, alpha, url, cmap, norm)
@@ -93,7 +94,7 @@ def raster_show(
     vmax=None,
     url=None,
     alpha=1.0,
-    **kwargs
+    **kwargs,
 ):
     """
     Plot raster data in a way friendly to projected maps.
@@ -123,7 +124,7 @@ def raster_show(
         extent=ax.get_extent(),
         interpolation="nearest",
         origin="lower",
-        **kwargs
+        **kwargs,
     )
 
     return _finalize_show((raster, extent, origin), im, ax, alpha, url, cmap, norm)
@@ -213,7 +214,7 @@ def h3_to_raster(h3_data, row_locs, col_locs, transform, fill=0.0):
     -------
     2D array of float
     """
-    levels = set(h3.get_resolution(x) for x in h3_data.keys())
+    levels = set(h3.get_resolution(x) for x in h3_data)
     shapes = set(np.shape(x) for x in h3_data.values())
     if len(shapes) != 1:
         raise ValueError("H3 data must be consistent")
@@ -225,9 +226,9 @@ def h3_to_raster(h3_data, row_locs, col_locs, transform, fill=0.0):
     for i, row in enumerate(row_locs):
         lons, lats = transform([row] * len(col_locs), col_locs)
         for level in levels:
-            for j, (lat, lon) in enumerate(zip(lats, lons)):
-            # h3_indices = vect.geo_to_h3(lats, lons, level)
-            # for j, h3ndx in enumerate(h3_indices):
+            for j, (lat, lon) in enumerate(zip(lats, lons, strict=False)):
+                # h3_indices = vect.geo_to_h3(lats, lons, level)
+                # for j, h3ndx in enumerate(h3_indices):
                 h3ndx = h3.latlng_to_cell(lat, lon, level)
                 if h3ndx in h3_data:
                     raster[i, j] = h3_data[h3ndx]
@@ -236,7 +237,7 @@ def h3_to_raster(h3_data, row_locs, col_locs, transform, fill=0.0):
 
 def h3cnts_to_raster(*args, **kwargs):
     warnings.warn(
-        "h3cnts_to_raster is deprecated, use h3_to_raster instead", DeprecationWarning
+        "h3cnts_to_raster is deprecated, use h3_to_raster instead", DeprecationWarning, stacklevel=2
     )
     return h3_to_raster(*args, **kwargs)
 
@@ -287,9 +288,9 @@ def raster_to_raster(raster, extent, row_locs, col_locs, transform, origin="uppe
         rr = ((lats - lat0) // dlat + 0.5).astype(int)
         cc = ((lons - lon0) // dlon + 0.5).astype(int)
 
-        valid = 0 <= rr
+        valid = rr >= 0
         valid &= rr < raster.shape[0]
-        valid &= 0 <= cc
+        valid &= cc >= 0
         valid &= cc < raster.shape[1]
 
         ii.fill(i)
@@ -371,9 +372,7 @@ class RasterImage(InterpImage):
 
     def _get_updated_A(self, row_locs, col_locs, transform):
         raster, extent, origin = self._source_data
-        return raster_to_raster(
-            raster, extent, row_locs, col_locs, transform, origin=origin
-        )
+        return raster_to_raster(raster, extent, row_locs, col_locs, transform, origin=origin)
 
 
 def setup_composite_tx(ax):
@@ -400,11 +399,11 @@ def setup_composite_tx(ax):
 
     def composite_tx(rr, cc):
         # rr, cc -> lons, lats
-        cr = list(zip(cc, rr))
+        cr = list(zip(cc, rr, strict=False))
         data_crds = np.asarray(ax.transData.inverted().transform(cr))
-        lonlat = core.identity.transform_points(
-            ax.projection, data_crds[:, 0], data_crds[:, 1]
-        )[:, :2]
+        lonlat = core.identity.transform_points(ax.projection, data_crds[:, 0], data_crds[:, 1])[
+            :, :2
+        ]
         return np.transpose(lonlat)
 
     return row_locs, col_locs, composite_tx, display_extent

@@ -1,6 +1,7 @@
 """End-to-end tests for a basic pyseas map generation workflow."""
 
 import matplotlib
+
 matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt

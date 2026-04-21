@@ -2,8 +2,13 @@ import warnings
 
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.colors import (BoundaryNorm, Colormap, LinearSegmentedColormap,
-                               LogNorm, Normalize, hsv_to_rgb, rgb_to_hsv)
+from matplotlib.colors import (
+    BoundaryNorm,
+    Colormap,
+    LinearSegmentedColormap,
+    LogNorm,
+    Normalize,
+)
 
 from .. import props
 from . import core
@@ -11,7 +16,6 @@ from .projection import projection_info
 
 
 class BivariateColormap:
-
     log_x = None
     log_y = None
 
@@ -171,12 +175,10 @@ def _setup_width_and_height(width, height, aspect_ratio):
 
     if width is None or height is None:
         if core._last_projection in projection_info:
-            scale = (
-                projection_info[core._last_projection]["aspect_ratio"] / aspect_ratio
-            )
+            scale = projection_info[core._last_projection]["aspect_ratio"] / aspect_ratio
         else:
             warnings.warn(
-                "Using non-standard projection, consider setting width and height"
+                "Using non-standard projection, consider setting width and height", stacklevel=2
             )
             scale = 2.1 / aspect_ratio
 
@@ -294,9 +296,7 @@ def add_bivariate_colorbox(
         shading="auto",
     )
 
-    bg_color = bg_color or plt.rcParams.get(
-        "pyseas.ocean.color", props.dark.ocean.color
-    )
+    bg_color = bg_color or plt.rcParams.get("pyseas.ocean.color", props.dark.ocean.color)
 
     cb_ax.set_facecolor(bg_color)
 

@@ -5,6 +5,7 @@ converted to a raster and then rendered through the pyseas map pipeline.
 """
 
 import matplotlib
+
 matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
@@ -37,9 +38,7 @@ def test_df2raster_and_add_raster_integration():
         fill=np.nan,
     )
 
-    fig, ax = plt.subplots(
-        figsize=(4, 3), subplot_kw={"projection": maps.core.identity}
-    )
+    fig, ax = plt.subplots(figsize=(4, 3), subplot_kw={"projection": maps.core.identity})
     im = maps.core.add_raster(
         raster,
         ax=ax,

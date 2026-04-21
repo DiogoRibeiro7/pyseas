@@ -35,9 +35,7 @@ def test_lon_avg_wraps_around_dateline():
     """Verify longitude averaging correctly handles dateline wrap-around."""
     longitudes = np.array([170.0, -170.0])
     average = util.lon_avg(longitudes)
-    assert np.isclose(average, 180.0, atol=1e-6) or np.isclose(
-        average, -180.0, atol=1e-6
-    )
+    assert np.isclose(average, 180.0, atol=1e-6) or np.isclose(average, -180.0, atol=1e-6)
 
 
 def test_is_sorted_with_sorted_and_unsorted_sequences():

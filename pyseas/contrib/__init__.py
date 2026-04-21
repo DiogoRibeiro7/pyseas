@@ -1,6 +1,5 @@
-from .plot_tracks import track_state_panel
-from .plot_tracks import multi_track_panel
-from .plot_tracks import find_projection
+from .plot_tracks import find_projection, multi_track_panel, track_state_panel
+
 
 def _reload():
     """Reload modules during development
@@ -8,8 +7,10 @@ def _reload():
     Note: Not 100% reliable!
     """
     from importlib import reload
-    from . import plot_tracks
+
     from pyseas import contrib
+
+    from . import plot_tracks
 
     reload(plot_tracks)
     reload(contrib)

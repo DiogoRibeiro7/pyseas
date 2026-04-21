@@ -2,6 +2,7 @@
 
 Based on https://github.com/jimutt/tiles-to-tiff but extensively modified
 """
+
 import glob
 import logging
 import os
@@ -15,7 +16,7 @@ from osgeo.gdalconst import GA_ReadOnly
 
 
 def latlonzoom_to_xy(lat, lon, z):
-    eps = 2 ** -20
+    eps = 2**-20
     lat = clip(lat, -90 + eps, 90 - eps)
     lon = clip(lon, -180, 180)
     tile_count = pow(2, z)
@@ -122,7 +123,7 @@ class TileDownloader:
 
     def _compute_extent(self, gdal_img):
         gt = gdal_img.GetGeoTransform()
-        proj = gdal_img.GetProjection()
+        gdal_img.GetProjection()
         return (
             gt[0],
             gt[0] + gdal_img.RasterXSize * gt[1],

@@ -63,8 +63,7 @@ def _distance_along_line(start, end, distance, dist_func, tol):
     initial_distance = dist_func(start, end)
     if initial_distance < distance:
         raise ValueError(
-            f"End is closer to start ({initial_distance}) than "
-            f"given distance ({distance})."
+            f"End is closer to start ({initial_distance}) than given distance ({distance})."
         )
 
     if tol <= 0:
@@ -192,7 +191,7 @@ def scale_bar(
     # Coordinates are currently in axes coordinates, so use transAxes to
     # put into data coordinates. *zip(a, b) produces a list of x-coords,
     # then a list of y-coords.
-    ax.plot(*zip(location, end), transform=ax.transAxes, **plot_kwargs)
+    ax.plot(*zip(location, end, strict=False), transform=ax.transAxes, **plot_kwargs)
 
     # Push text away from bar in the perpendicular direction.
     midpoint = (location + end) / 2
@@ -249,7 +248,7 @@ def add_scalebar(
             return ax
         else:
             warnings.warn(
-                "latidude extent is large enough that scalebar may be inaccurate"
+                "latidude extent is large enough that scalebar may be inaccurate", stacklevel=2
             )
 
     if (lat_extent > 0) & (lon_extent > 0):

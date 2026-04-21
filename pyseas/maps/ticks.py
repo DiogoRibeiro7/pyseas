@@ -1,10 +1,8 @@
 # Based on this stackoverflow post:
 # https://stackoverflow.com/questions/27962953/cartopy-axis-label-workaround
 import cartopy.crs as ccrs
-import matplotlib.pyplot as plt
 import numpy as np
 import shapely.geometry as sgeom
-from cartopy.mpl.gridliner import LATITUDE_FORMATTER, LONGITUDE_FORMATTER
 
 
 def find_side(ls, side):
@@ -31,10 +29,13 @@ EPS = 1  # degrees
 def draw_xticks(ax, ticks, side="bottom"):
     """Draw ticks on the bottom x-axis of a cartopy map."""
     assert side in ["bottom", "top"]
-    te = lambda xy: xy[0]
-    lc = lambda t, n, b: np.vstack(
-        (np.zeros(n) + t, np.linspace(b[2] - EPS, b[3] + EPS, n))
-    ).T
+
+    def te(xy):
+        return xy[0]
+
+    def lc(t, n, b):
+        return np.vstack((np.zeros(n) + t, np.linspace(b[2] - EPS, b[3] + EPS, n))).T
+
     xticks, xticklabels = _ticks(ax, ticks, side, lc, te)
     if side == "bottom":
         ax.xaxis.tick_bottom()
@@ -47,10 +48,13 @@ def draw_xticks(ax, ticks, side="bottom"):
 def draw_yticks(ax, ticks, side="left"):
     """Draw ticks on the left y-axis of a Lamber Conformal projection."""
     assert side in ["left", "right"]
-    te = lambda xy: xy[1]
-    lc = lambda t, n, b: np.vstack(
-        (np.linspace(b[0] - EPS, b[1] + EPS, n), np.zeros(n) + t)
-    ).T
+
+    def te(xy):
+        return xy[1]
+
+    def lc(t, n, b):
+        return np.vstack((np.linspace(b[0] - EPS, b[1] + EPS, n), np.zeros(n) + t)).T
+
     yticks, yticklabels = _ticks(ax, ticks, side, lc, te)
     if side == "left":
         ax.yaxis.tick_left()

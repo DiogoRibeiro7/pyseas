@@ -22,24 +22,24 @@ def _reload():
 
     Note: Not 100% reliable!
     """
+    from importlib import reload
+
     import pyseas
-    from pyseas import maps, cm, styles, util, props
+    from pyseas import cm, contrib, maps, props, styles, util
     from pyseas.contrib import plot_tracks
     from pyseas.maps import (
-        scalebar,
+        bivariate,
+        colorbar,
         core,
         extent,
-        rasters,
-        ticks,
-        projection,
         overlays,
+        projection,
         rasterize,
-        colorbar,
-        bivariate,
+        rasters,
+        scalebar,
+        ticks,
     )
-    from pyseas import contrib
-    from importlib import reload
-    \
+
     reload(pyseas)
     reload(util)
     reload(projection)

@@ -53,22 +53,16 @@ def add_left_labeled_colorbar(
         ax = plt.gca()
 
     if width is None:
-        if center:
-            width = 0.56
-        else:
-            width = 0.33
+        width = 0.56 if center else 0.33
     if right_edge is None:
-        is_global = isinstance(
-            core._last_projection, str
-        ) and core._last_projection.startswith("global.")
+        is_global = isinstance(core._last_projection, str) and core._last_projection.startswith(
+            "global."
+        )
         right_edge = 0.78 if is_global else 1.0
     hloc = 0.98 + hspace if (loc == "top") else -(height + hspace)
     if center:
         hloc += 0.02
-    if center:
-        wloc = 0.5 - width / 2
-    else:
-        wloc = right_edge - width
+    wloc = 0.5 - width / 2 if center else right_edge - width
 
     cb_ax = ax.inset_axes([wloc, hloc, width, height], transform=ax.transAxes)
     cb = plt.colorbar(
@@ -86,9 +80,7 @@ def add_left_labeled_colorbar(
         valign,
         label,
         transform=cb_ax.transAxes,
-        fontdict=plt.rcParams.get(
-            "pyseas.map.colorbarlabelfont", styles._colorbarlabelfont
-        ),
+        fontdict=plt.rcParams.get("pyseas.map.colorbarlabelfont", styles._colorbarlabelfont),
         horizontalalignment="right",
         verticalalignment="center",
     )
@@ -165,9 +157,7 @@ def add_top_labeled_colorbar(
             1.0,
             left_label,
             transform=cb_ax.transAxes,
-            fontdict=plt.rcParams.get(
-                "pyseas.map.colorbarlabelfont", styles._colorbarlabelfont
-            ),
+            fontdict=plt.rcParams.get("pyseas.map.colorbarlabelfont", styles._colorbarlabelfont),
             horizontalalignment="left",
             verticalalignment="bottom",
         )
@@ -178,9 +168,7 @@ def add_top_labeled_colorbar(
             1.0,
             center_label,
             transform=cb_ax.transAxes,
-            fontdict=plt.rcParams.get(
-                "pyseas.map.colorbarlabelfont", styles._colorbarlabelfont
-            ),
+            fontdict=plt.rcParams.get("pyseas.map.colorbarlabelfont", styles._colorbarlabelfont),
             horizontalalignment="center",
             verticalalignment="bottom",
         )
@@ -191,9 +179,7 @@ def add_top_labeled_colorbar(
             1.0,
             right_label,
             transform=cb_ax.transAxes,
-            fontdict=plt.rcParams.get(
-                "pyseas.map.colorbarlabelfont", styles._colorbarlabelfont
-            ),
+            fontdict=plt.rcParams.get("pyseas.map.colorbarlabelfont", styles._colorbarlabelfont),
             horizontalalignment="right",
             verticalalignment="bottom",
         )
