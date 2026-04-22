@@ -132,7 +132,7 @@ def locs_to_h3_cnts(lons, lats, level):
         Maps H3 index values to counts
     """
     counts = dict()
-    h3_indices = vect.geo_to_h3(lats.astype("double"), lons.astype("double"), level)
+    h3_indices = vect.geo_to_h3(lats.astype("double"), lons.astype("double"), level)  # noqa: F821  # undefined `vect` tracked as issue #1
     for ndx in h3_indices:
         if ndx not in counts:
             counts[ndx] = 0

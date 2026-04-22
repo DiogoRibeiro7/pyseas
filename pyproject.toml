@@ -22,6 +22,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: GIS",
     "Topic :: Scientific/Engineering :: Visualization",
 ]
+
 dependencies = [
     "cartopy>=0.24.1,<0.25",
     "cmocean>=4.0.3,<5",
@@ -91,8 +92,6 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = ["B018"]  # allow useless expressions in tests (e.g. bare np.allclose before assert was added)
 "pyseas/maps/_monkey_patch_cartopy.py" = ["F401", "F403"]  # monkey-patch module by design
-"**/__init__.py" = ["F401"]  # re-exports
-"pyseas/maps/rasters.py" = ["F821"]  # undefined `vect` in locs_to_h3_cnts tracked as issue #1
 
 [tool.ruff.lint.isort]
 known-first-party = ["pyseas"]

@@ -1,5 +1,7 @@
 from .plot_tracks import find_projection, multi_track_panel, track_state_panel
 
+__all__ = ["find_projection", "multi_track_panel", "track_state_panel"]
+
 
 def _reload():
     """Reload modules during development
